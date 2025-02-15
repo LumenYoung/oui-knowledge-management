@@ -104,7 +104,7 @@ def sync_files_to_knowledge(base_url, token, kb_name):
     )
 
 
-if __name__ == "__main__":
+def main():
     parser = ArgumentParser(description="Sync files to a knowledge base")
     parser.add_argument("--token", "-t", required=True, help="OpenWebUI API token")
     parser.add_argument(
@@ -122,3 +122,6 @@ if __name__ == "__main__":
     sync_files_to_knowledge(
         base_url=args.base_url, token=args.token, kb_name=args.kb_name
     )
+
+if __name__ == "__main__":
+    main()
