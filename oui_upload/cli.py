@@ -20,7 +20,7 @@ def find_knowledge_by_name(base_url, token, kb_name):
     raise ValueError(f"Knowledge base '{kb_name}' not found")
 
 
-def sync_files_to_knowledge(base_url, token, kb_name):
+def sync_files_to_knowledge(base_url, token, kb_name, target_dir=None):
     # 1. Find knowledge base
     try:
         kb = find_knowledge_by_name(base_url, token, kb_name)
@@ -55,7 +55,7 @@ def sync_files_to_knowledge(base_url, token, kb_name):
     ]
 
     files_uploaded = 0
-    current_dir = os.getcwd()
+    current_dir = target_dir if target_dir else os.getcwd()
 
     for pattern in file_types:
         for file_path in glob.glob(
@@ -116,11 +116,17 @@ def main():
     parser.add_argument(
         "--kb-name", "-n", required=True, help="Name of the knowledge base to sync with"
     )
+    parser.add_argument(
+        "--dir", "-d", help="Target directory to upload (defaults to current directory)"
+    )
 
     args = parser.parse_args()
 
     sync_files_to_knowledge(
-        base_url=args.base_url, token=args.token, kb_name=args.kb_name
+        base_url=args.base_url,
+        token=args.token,
+        kb_name=args.kb_name,
+        target_dir=args.dir
     )
 
 if __name__ == "__main__":
