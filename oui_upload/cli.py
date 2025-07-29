@@ -74,7 +74,7 @@ def sync_files_to_knowledge(base_url, token, kb_name, target_dir=None):
                         upload_response = requests.post(
                             f"{base_url}/api/v1/files/",
                             headers=headers,
-                            files={"file": f},
+                            files={"file": (file_name, f, "application/octet-stream")},
                         )
 
                     if not upload_response.ok:
