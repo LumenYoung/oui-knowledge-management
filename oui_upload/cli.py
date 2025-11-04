@@ -55,11 +55,20 @@ def sync_files_to_knowledge(base_url, token, kb_name, target_dir=None):
     ]
 
     files_uploaded = 0
-    current_dir = target_dir if target_dir else os.getcwd()
+    # Determine the directory to search in
+    if target_dir is None:
+        search_dir = os.getcwd()
+    else:
+        search_dir = target_dir
+    
+    # Convert to absolute path
+    search_dir = os.path.abspath(search_dir)
+    print(f"Searching for files in: {search_dir}")
 
     for pattern in file_types:
+        # Search recursively in the specified directory
         for file_path in glob.glob(
-            os.path.join(current_dir, "**", pattern), recursive=True
+            os.path.join(search_dir, "**", pattern), recursive=True
         ):
             # Skip .git directories
             if ".git" in file_path:
